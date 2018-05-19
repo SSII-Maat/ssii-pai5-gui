@@ -122,7 +122,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/sillas_label"
         android:layout_marginTop="250dp"
-        android:text="Sillones: "
+        android:text="Minibar: "
         android:textSize="@dimen/input_font_size"
         android:layout_alignLeft="@+id/sillas_label" />
 

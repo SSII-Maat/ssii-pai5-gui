@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
                         errorMsg = "El campo 'sillas' debe contener un número no decimal entre 1 y 500.\n";
                         break;
                     default:
-                        errorMsg = "El campo 'sillones' debe contener un número no decimal entre 1 y 500.\n";
+                        errorMsg = "El campo 'minibar' debe contener un número no decimal entre 1 y 500.\n";
                         break;
                 }
                 results.add(null);
@@ -187,9 +187,11 @@ public class MainActivity extends AppCompatActivity {
                                         // Obtenemos el nounce
                                         BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-//                                        String nounce = br.readLine();
+                                        Log.d("TestApplication", br.toString());
 
-//                                        data.put("nounce", nounce);
+                                        String nounce = br.readLine();
+
+                                        data.put(Long.parseLong(nounce));
 
                                         result.put("data", data);
 
@@ -200,10 +202,14 @@ public class MainActivity extends AppCompatActivity {
                                         sign.initSign(privateKey);
                                         sign.update(data.toString().getBytes());
                                         byte[] signature = sign.sign();
-
-                                        String signatureString = Base64.encodeToString(signature, Base64.NO_WRAP | Base64.NO_PADDING);
+                                        StringBuilder builder = new StringBuilder();
+                                        for(byte b : signature) {
+                                            builder.append(String.format("%02X", b));
+                                        }
+                                        String signatureString = builder.toString();
 
                                         Log.d("TestApplication", signatureString);
+
                                         result.put("signature", signatureString);
 
                                         // 3. Enviar los datos
@@ -215,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
 
                                         // Comprobamos la respuesta:
                                         String res = br.readLine();
-                                        if(res.contains("success")) {
+                                        if(res.contains("Success")) {
                                             Toast.makeText(MainActivity.this, "Petición enviada correctamente", Toast.LENGTH_SHORT).show();
                                         } else {
                                             Toast.makeText(MainActivity.this, "Se ha producido un error en la petición", Toast.LENGTH_SHORT).show();
